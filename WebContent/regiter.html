@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>注册页面</title>
+<script type="text/javascript">
+	function checkName(){
+		var username = document.getElementById("username");
+		var span = document.getElementById("checkUser");
+		name = username.value;
+		
+		//1.创建XMLHttpRequest对象ajax引擎
+		var xmlHttpRequest = null;
+		if(window.XMLHttpRequest){//新版本浏览器
+			xmlHttpRequest = new  XMLHttpRequest();	
+		}else{//老版本IE浏览器
+			xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		//2.发起ajax请求 url  method  true:异步    false:同步
+		xmlHttpRequest.open("GET","checkName.do?username="+name,true);
+		//3.发送数据 
+		xmlHttpRequest.send(null);
+		//4.回调函数 
+		xmlHttpRequest.onreadystatechange = function(){
+			//5.成功状态的数据执行  4:响应结束   200：请求响应成功
+			if (xmlHttpRequest.readyState == 4
+						&& xmlHttpRequest.status == 200) {
+				var data = xmlHttpRequest.responseText.trim();
+				if(data == "true"){
+					alert(data);
+					span.innerHTML = "名字不可用";
+					span.style.color = "red";
+				}else if(data == "false"){
+					span.innerHTML = "名字可用";
+					span.style.color = "green";
+				}
+			}
+		}
+	}
+</script>
+</head>
+<body>
+	<form action="checkName.do" method="post">
+		<p>账户：<input id="username" type="text" name="username" onkeyup="checkName()">
+			<span id="checkUser"></span>
+		</p>
+		<p>密码：<input type="password" name="password"></p>
+		<p><input type="submit" value="提交"></p>
+	</form>
+</body>
+</html>

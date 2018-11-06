@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript">
+	function initData(){
+		$.post("students.do",//请求路径
+			{"name":"admin","age":"123123"},//参数
+			function(data){//成功  回调函数
+				//alert(typeof data)
+				//$("#result").html("姓名："+data.name+",年龄："+data.age);
+			$.each(data,function(i,o){
+				str = "<tr>";
+				str +="<td>"+(i+1)+"</td>";
+				str +="<td>"+(o.name)+"</td>";
+				str +="<td>"+(o.age)+"</td>";
+				str +="<tr>";
+				$("#result").append(str);
+			})
+			},
+			"json"//响应格式
+		)
+	}
+	</script>
+</head>
+<body onload="initData()">
+	<p>学生信息：</p>
+	<table id="result">
+	<tr>
+		<th>序号</th>
+		<th>姓名</th>
+		<th>年龄</th>
+	</tr>
+	</table>
+</body>
+</html>

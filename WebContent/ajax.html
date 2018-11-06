@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+	<script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript">
+	var ctx="${ctx}";/* 定义全集变量 */
+		function checkName(){
+			var username = $("#username").val();
+			var num = 0;
+			//1.ajax请求
+			$.ajax({
+				"url":"checkName.do",//请求的路径
+				"type":"GET",//请求方式
+				"data":"username="+username,//数据
+				"dataType":"text",//数据格式
+				//"async":false,//异步
+				"async":false,//同步安全的
+				"timeout":1000,//等待时间
+				"success":function(data){//成功之后的回调函数
+					if(data == "true"){
+						//alert(typeof data)
+						num = 100;
+						$("#checkUser").html("用户名已存在");
+						$("#checkUser").css("color","red");
+					}else{
+						$("#checkUser").html("用户名可以使用");
+						$("#checkUser").css({"color" : "green"});
+					}
+				}
+			})
+			alert(num)
+		}
+	</script>
+</head>
+<body>
+	<!--  -->
+	<form action="checkName.do" method="post">
+		<p>账户：<input id="username" type="text" name="username" onkeyup="checkName()"/>
+			<span id="checkUser"></span>
+		</p>
+		<p>密码：<input type="password" name="password"></p>
+		<p><input type="submit" value="提交"></p>
+	</form>
+</body>
+</html>
